@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <includes/Repository.h>
+#include <memory>
+#include "Repository.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -65,7 +66,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString selectedFolder;
-    Repository* repo;
+    std::unique_ptr<Repository> repo;
     QString fileToAdd;
 
 };

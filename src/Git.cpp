@@ -1,5 +1,6 @@
-#include "includes/Git.h"
-#include "includes/File.h"
+#include "Git.h"
+#include "File.h"
+#include <vector>
 
 
 /**
@@ -88,11 +89,12 @@ void Git::handleCommit() {
     std::cout << "Enter commit message: ";
     std::getline(std::cin, message);
 
-    for (auto it: repository.committedFiles) {
-        File file(repository.repoPath + "/" + it.first);
-        std::optional<size_t> currentHash = file.getHash();
-        if (! it.second.has_value() || it.second.value() != currentHash) {
-            repository.commit(it.first, message);
-        }
+    std::vector<std::string> trackedNames;
+    trackedNames.reserve(repository.getCommittedFiles().size());
+    for (const auto& entry : repository.getCommittedFiles()) {
+        trackedNames.push_back(entry.first);
+    }
+    for (const auto& fileName : trackedNames) {
+        repository.commit(fileName, message);
     }
 }

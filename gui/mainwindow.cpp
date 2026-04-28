@@ -1,28 +1,23 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "QPushButton"
-#include "QFileDialog"
-#include "QInputDialog"
-#include "includes/Repository.h"
+#include <QPushButton>
+#include <QFileDialog>
+#include <QInputDialog>
+#include "Repository.h"
 #include <filesystem>
-
-
-using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , repo(nullptr)
 {
-    MainWindow::repo = nullptr;
     ui->setupUi(this);
-
     ui->stackedWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete repo;
 }
 
 
@@ -52,9 +47,9 @@ void MainWindow::on_browseBtn2_clicked()
 
 void MainWindow::on_enterToRepo_clicked()
 {
-    if (selectedFolder != nullptr) {
+    if (!selectedFolder.isEmpty()) {
 
-        this->repo = new Repository(selectedFolder.toStdString());
+        this->repo = std::make_unique<Repository>(selectedFolder.toStdString());
 
         std::string msg = repo->init();
 
@@ -67,7 +62,7 @@ void MainWindow::on_enterToRepo_clicked()
 
 void MainWindow::on_addBtn_clicked()
 {
-    if (this->fileToAdd != nullptr) {
+    if (!this->fileToAdd.isEmpty()) {
 
         std::string filename = std::filesystem::path(this->fileToAdd.toStdString()).filename().generic_string();
 
@@ -90,7 +85,7 @@ void MainWindow::on_addBtn_clicked()
 
 void MainWindow::on_commitBtn_clicked()
 {
-    if (this->fileToAdd != nullptr) {
+    if (!this->fileToAdd.isEmpty()) {
 
         std::string filename = std::filesystem::path(this->fileToAdd.toStdString()).filename().generic_string();
 
@@ -110,9 +105,9 @@ void MainWindow::on_commitBtn_clicked()
 
 void MainWindow::on_changeRepoBtn_clicked()
 {
-    this->selectedFolder = nullptr;
-    this->repo = nullptr;
-    this->fileToAdd = nullptr;
+    this->selectedFolder.clear();
+    this->repo.reset();
+    this->fileToAdd.clear();
 
     ui->commitSuccessLabel->clear();
     ui->statusTextbox->clear();

@@ -1,14 +1,14 @@
-#include "includes/Repository.h"
-#include "includes/File.h"
+#include "Repository.h"
+#include "File.h"
 #include <fstream>
 #include <iostream>
 #include <optional>
-#include <experimental/filesystem>
+#include <filesystem>
 #include <vector>
 #include <chrono>
 #include <ctime>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 
 /**
@@ -102,11 +102,17 @@ void Repository::log(Operation operation, const std::string& message) const {
 
     std::string operationStr;
     switch (operation) {
+        case Operation::Init:
+            operationStr = "Init";
+            break;
         case Operation::Add:
             operationStr = "Add";
             break;
         case Operation::Commit:
             operationStr = "Commit";
+            break;
+        case Operation::Status:
+            operationStr = "Status";
             break;
     }
 
@@ -216,8 +222,6 @@ std::vector<std::string> Repository::status() const {
  * @return A message indicating the initialization status.
  */
 std::string Repository::init() {
-    std::string gitFolderPath = repoPath + "/git";
-
     if (fs::exists(gitFolderPath)) {
         std::cout << "Repository already initialized at " << repoPath << std::endl;
         return "Opened repository at: " + repoPath;
@@ -227,7 +231,7 @@ std::string Repository::init() {
         std::ofstream logFile(gitFolderPath + "/log");
         logFile.close();
 
-        std::ofstream filesFile(gitFolderPath + "/Files");
+        std::ofstream filesFile(gitFolderPath + "/files");
         filesFile.close();
 
         std::cout << "Initialized empty repository in " << repoPath << std::endl;

@@ -60,12 +60,19 @@ public:
      */
     std::vector<std::string> status() const;
 
-    std::map<std::string, std::optional<size_t>> committedFiles; ///< Map of committed files and their hash values.
-    std::string repoPath; ///< The path to the repository.
+    /**
+     * @brief Returns the map of tracked files and their committed hash values.
+     */
+    const std::map<std::string, std::optional<size_t>>& getCommittedFiles() const { return committedFiles; }
 
-
+    /**
+     * @brief Returns the repository path.
+     */
+    const std::string& getRepoPath() const { return repoPath; }
 
 private:
+    std::map<std::string, std::optional<size_t>> committedFiles; ///< Map of committed files and their hash values.
+    std::string repoPath; ///< The path to the repository.
     std::string gitFolderPath; ///< The path to the repository's .git folder.
     std::string logFilePath; ///< The path to the log file.
     std::string filesPath; ///< The path to the file tracking committed files.
