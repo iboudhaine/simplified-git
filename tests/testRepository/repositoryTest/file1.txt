@@ -1,2 +1,0 @@
-Initial content for file1.txt
-Modified content for file1.txt

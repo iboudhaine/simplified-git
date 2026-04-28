@@ -21,6 +21,13 @@ target_include_directories(sgit_core PUBLIC include)
 add_executable(sgit src/main_cli.cpp)
 target_link_libraries(sgit PRIVATE sgit_core)
 
+# Tests.
+option(BUILD_TESTS "Build unit tests" ON)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
 # GUI executable: built only if Qt is found.
 option(BUILD_GUI "Build the Qt GUI (sgit-gui)" ON)
 if(BUILD_GUI)

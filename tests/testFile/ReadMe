@@ -1,4 +1,0 @@
-go to testFile path
-run File_test:
-g++ -o file_test File_test.cpp ../../File.cpp -std=c++17
-.\File_test
