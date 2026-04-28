@@ -47,6 +47,10 @@ If Qt isn't installed, the configure step prints `GUI: Qt not found, sgit-gui wi
 
 The folder should be a throwaway directory (e.g. `/tmp/myrepo`), not your project root `status` lists every file in the directory and there's no ignore mechanism.
 
+<p align="center">
+  <img src="assets/repl.png" alt="REPL screenshot" width="600">
+</p>
+
 ### Running the GUI
 
 ```bash
@@ -54,6 +58,10 @@ The folder should be a throwaway directory (e.g. `/tmp/myrepo`), not your projec
 ```
 
 Use the Browse buttons to select a folder, then files within it.
+
+<p align="center">
+  <img src="assets/gui.png" alt="GUI screenshot" width="600">
+</p>
 
 ## License
 
