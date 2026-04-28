@@ -1,50 +1,60 @@
-# Simplified-Git
+# simplified-git
 
-## Overview
+## What this is
 
-Simplified Git is a user-friendly tool that offers a simplified version of Git for efficient repository creation and management. With both a graphical user interface (GUI) for intuitive interactions and a command-line interface (CLI) for terminal enthusiasts, this tool caters to a diverse range of user preferences.
+A learning project that reimplements a tiny slice of Git in C++. It's not a Git replacement and not meant to be - we are just reinventing the wheel to understand how a version-control tool tracks file changes under the hood.
 
-## Features
+The project is built around a small core (`File`, `Repository`, `Git`) and exposes that core through two front-ends: a command-line REPL and a Qt GUI.
 
-### GUI Mode
+## What it does
 
-Explore the simplicity of Git operations with just a few clicks in the GUI mode. Navigate through the application effortlessly, making repository management accessible to users of all experience levels.
+Four operations on a single directory: `init`, `add`, `commit`, `status`.
 
-### CLI Mode (REPL)
+## Modes
 
-For a streamlined command-line experience, the REPL (Read-Eval-Print Loop) in CLI mode allows users to initialize Git repositories with ease. Simply specify the repository path, and Simplified Git takes care of the rest.
+**REPL (`sgit`)**: a `git>` prompt. Type `init`, `add`, `commit`, `status`, or `exit`. `add` and `commit` prompt separately for the filename and message.
 
-## Getting Started
+**GUI (`sgit-gui`)**: a Qt window with two pages: pick a folder to init/open the repo, then pick files to add and commit through buttons.
 
-### GUI Mode
+Both front-ends use the same underlying core, so behavior is identical.
 
-To run the GUI mode:
+## Requirements
 
-run qmake in qt creator, then run the project.
+- C++17 compiler (GCC 9+ / Clang 10+ / MSVC 2019+)
+- CMake 3.16 or newer
+- Qt 6 (or Qt 5) - **only if you want the GUI**. The CLI builds with no Qt dependency.
 
-Enjoy the simplicity of Git operations through the graphical interface.
+Tested on Linux with GCC 14 and Qt 6. The CMake setup is portable; Windows and macOS should work but have not been verified.
 
-### CLI Mode
-
-To run the CLI mode:
+## Build & run
 
 ```bash
-# Navigate to the project directory
-cd path/to/Simplified-Git
-
-# Uncomment the relevant code block in main.cpp for CLI
-# Compile and run the CLI application
+cmake -B build
+cmake --build build
 ```
 
+This produces:
+- `build/sgit`: the REPL
+- `build/sgit-gui`: the Qt GUI (only if Qt was found at configure time)
 
-## Testing
+If Qt isn't installed, the configure step prints `GUI: Qt not found, sgit-gui will be skipped` and the CLI still builds normally. Install Qt and reconfigure (`rm -rf build && cmake -B build`) to get the GUI.
 
-The tests folder contains various test files, each with a corresponding README providing instructions on how to execute the tests. Explore the test files to ensure Simplified Git functions seamlessly in different scenarios.
+### Running the REPL
 
-## Contributing
+```bash
+./build/sgit /path/to/some/folder
+```
 
-Contributions to Simplified Git are welcome! Submit bug reports, suggest features, or contribute directly through pull requests. Your input is valuable to the project's growth.
+The folder should be a throwaway directory (e.g. `/tmp/myrepo`), not your project root `status` lists every file in the directory and there's no ignore mechanism.
+
+### Running the GUI
+
+```bash
+./build/sgit-gui
+```
+
+Use the Browse buttons to select a folder, then files within it.
 
 ## License
 
-Simplified Git is licensed under the [MIT License](LICENSE), fostering collaboration and continuous improvement.
+MIT. See [LICENSE](LICENSE).
