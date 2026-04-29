@@ -20,7 +20,7 @@ Both front-ends use the same underlying core, so behavior is identical.
 
 ## Requirements
 
-- C++17 compiler (GCC 9+ / Clang 10+ / MSVC 2019+)
+- C++17 compiler
 - CMake 3.16 or newer
 - Qt 6 (or Qt 5) - **only if you want the GUI**. The CLI builds with no Qt dependency.
 
